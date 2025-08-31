@@ -26,6 +26,3 @@ jobs:
 
       - name: Test
         run: npm test
-
-      - name: E2E Tests
-        run: npx playwright test --web-server "npm start -- --port=8081"

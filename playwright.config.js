@@ -1,5 +1,6 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test'
+// eslint-disable-next-line no-undef
+const { defineConfig, devices } = require('@playwright/test')
 
 /**
  * Read environment variables from file.
@@ -12,7 +13,8 @@ import { defineConfig, devices } from '@playwright/test'
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-export default defineConfig({
+// eslint-disable-next-line no-undef
+module.exports = defineConfig({
   testDir: './e2e-tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -30,7 +32,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:8081',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -77,7 +79,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm start',
-    port: 3000,
+    port: 8081,
     timeout: 120 * 1000,
     // eslint-disable-next-line no-undef
     reuseExistingServer: !process.env.CI,

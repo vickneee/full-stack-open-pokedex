@@ -13,3 +13,11 @@ jobs:
       - name: Hello World Step
         run:
           echo "Hello, world!"
+
+      - name: Date Step
+        run:
+          date
+
+      - name: List Files Step
+        run:
+          ls -l

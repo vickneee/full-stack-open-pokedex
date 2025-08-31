@@ -78,7 +78,7 @@ module.exports = defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm start',
+    command: 'npm run start-prod',
     port: 8081,
     timeout: 120 * 1000,
     // eslint-disable-next-line no-undef

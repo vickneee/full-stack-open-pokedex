@@ -4,10 +4,9 @@
   "description": "Full Stack Open",
   "main": "src/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --open --mode development",
-    "start": "node app.js",
+    "start": "webpack-dev-server --open --mode development",
+    "start-prod": "node app.js",
     "build": "webpack --mode production",
-    "start-prod": "cross-env NODE_ENV=production node app.js",
     "test": "jest",
     "test:e2e": "playwright test",
     "test:report": "playwright show-report",

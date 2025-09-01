@@ -26,3 +26,7 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Deploy to Render
+        if: success()
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}

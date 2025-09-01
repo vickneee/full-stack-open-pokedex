@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 8081
 
 app.use(express.static('dist'))
 
+app.get('/health', (req, res) => {
+  res.send('OK')
+})
+
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`)
 })

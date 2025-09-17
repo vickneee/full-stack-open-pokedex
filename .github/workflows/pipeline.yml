@@ -38,7 +38,7 @@ jobs:
     name: Bump version and push tag
     runs-on: ubuntu-latest
     needs: [ simple_deployment_pipeline ]
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip tag]' ) }}
 
     steps:
       - name: Checkout
@@ -55,8 +55,8 @@ jobs:
   deploy_to_render:
     name: Deployment
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
     needs: [ simple_deployment_pipeline, tag_release ]
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip tag]' ) }}
 
     steps:
       - name: Deploy to Render

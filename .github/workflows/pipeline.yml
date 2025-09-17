@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
       - name: Install Dependencies
         run: npm install
@@ -44,7 +45,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: '0'
 
       - name: Update version number
@@ -57,7 +57,7 @@ jobs:
     name: Deployment
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
-    needs: simple_deployment_pipeline
+    needs: [ simple_deployment_pipeline, tag_release ]
 
     steps:
       - name: Deploy to Render

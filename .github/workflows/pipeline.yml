@@ -61,8 +61,12 @@ jobs:
     needs: simple_deployment_pipeline
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip deployment]' ) }}
 
+    outputs:
+      result: ${{ steps.deploy.outcome }}
+
     steps:
       - name: Deploy to Render
+        id: deploy
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
   notification:
@@ -74,14 +78,14 @@ jobs:
      steps:
       - name: Deployment Success
         uses: sebastianpopp/discord-action@releases/v2
-        if: ${{ needs.deployment.result == 'success' }}
+        if: ${{ needs.deployment.outputs.result == 'success' }}
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: ${{ github.repository }} All tests passed! Deployment Successful!
 
       - name: Deployment Failed
         uses: sebastianpopp/discord-action@releases/v2
-        if: ${{ needs.deployment.result == 'failure' }}
+        if: ${{ needs.deployment.outputs.result == 'failure' }}
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: ${{ github.repository }} Deployment Failure!

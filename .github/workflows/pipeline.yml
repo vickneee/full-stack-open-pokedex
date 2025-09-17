@@ -10,11 +10,15 @@ on:
 
 jobs:
   simple_deployment_pipeline:
+    name: Simple deployment pipeline
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node setup
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -37,11 +41,11 @@ jobs:
     if: ${{ github.event_name == 'push' }}
 
     steps:
-      -  name: Checkout
-         uses: actions/checkout@v4
-         with:
-           ref: ${{ github.event.pull_request.merge_commit_sha }}
-           fetch-depth: '0'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
 
       - name: Update version number
         uses: anothrNick/github-tag-action@1.75.0

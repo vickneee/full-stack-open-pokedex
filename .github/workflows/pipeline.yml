@@ -30,16 +30,24 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Deploy to Render
-        if: ${{ github.event_name == 'push' }}
-        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
-
   tag_release:
-    needs: [simple_deployment_pipeline]
+    name: Bump version and push tag
     runs-on: ubuntu-latest
+    needs: [ simple_deployment_pipeline ]
+    if: ${{ github.event_name == 'push' }}
 
     steps:
-      - name: Bump version and push tag
+      - name: Update version number
         uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy_to_render:
+    name: Deployment
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    needs: simple_deployment_pipeline
+
+    steps:
+      - name: Deploy to Render
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}

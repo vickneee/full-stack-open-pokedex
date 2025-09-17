@@ -66,12 +66,11 @@ jobs:
     name: Discord notify
     runs-on: ubuntu-latest
     needs: [ simple_deployment_pipeline, tag_release, deploy_to_render ]
-    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip tag]' ) }}
 
     steps:
       - name: Build Success
         uses: rjstone/discord-webhook-notify@v2
-        if: success()
+        if: ${{ success() }}
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: info
@@ -79,7 +78,7 @@ jobs:
 
       - name: Build Failed
         uses: rjstone/discord-webhook-notify@v2
-        if: failure()
+        if: ${{ failure() }}
         with:
           avatarUrl: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}

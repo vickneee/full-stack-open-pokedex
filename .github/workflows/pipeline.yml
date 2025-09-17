@@ -66,17 +66,15 @@ jobs:
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
       - name: Build Success
-        uses: rjstone/discord-webhook-notify@v1
+        uses: sebastianpopp/discord-action@releases/v2
         if: success()
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: info
-          details: All tests passed! Build Successful!
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: ${{ github.repository }} All tests passed! Build Successful!
 
       - name: Build Failed
-        uses: rjstone/discord-webhook-notify@v1
+        uses: sebastianpopp/discord-action@releases/v2
         if: failure()
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: error
-          details: Failure!
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: ${{ github.repository }} Failure!
